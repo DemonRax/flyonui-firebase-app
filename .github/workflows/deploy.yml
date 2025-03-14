@@ -1,0 +1,41 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+      - name: Lint
+        run: pnpm lint
+      - name: Setup env
+        run: |
+          cat << EOF > .env
+          REACT_APP_FIREBASE_DOMAIN="xxx.firebaseapp.com"
+          REACT_APP_FIREBASE_PROJECT_ID="xxx"
+          REACT_APP_FIREBASE_STORAGE_BUCKET="xxx.appspot.com"
+          REACT_APP_FIREBASE_SENDER_ID=""
+          REACT_APP_FIREBASE_APP_ID=""
+          REACT_APP_FIREBASE_LOCATION_ID="europe-west"
+          REACT_APP_FIREBASE_KEY=${{ secrets.FIREBASE_KEY }}
+          REACT_APP_GOOGLE_CLIENT_ID=""
+          EOF
+      - name: Build
+        run: pnpm run build
+      - name: Deploy to Firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          args: deploy --only hosting:hosting
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
+          projectId: xxx
+          channelId: live
