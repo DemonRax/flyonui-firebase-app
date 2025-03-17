@@ -8,7 +8,7 @@ pnpm run dev
 ```
 
 ## Overview
-Make sure it runs as it is, then head to https://flyonui.com to get components and add them to the project.
+Make sure it runs as it is, create an empty `./.env` for that. Then head to https://flyonui.com to get components and add them to the project.
 
 In order to connect to the Firebase, use the instructions below. Those steps are optional and not required for the application to run locally.
 
