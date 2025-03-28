@@ -34,7 +34,9 @@ Make sure to configure `.github/deploy.yml` properly by adding all necessary env
 
 No not expose the FIREBASE_KEY! Instead, it can be added to the GitHub secrets in the project settings section. The key itself should also be part of the Firebase project configuration.
 
-Finally, in order to setup GitHub actions deployments to Firebase hosting, a FIREBASE_TOKEN secret has to be added to the GitHub secrets as well. In order to get the token, run `firebase login:ci`, log into the project and copy the token from the console afterwards.
+The last secret is needed the FIREBASE_SERVICE_ACCOUNT credentials, which can be created in the Firebase project settings -> Service accounts. Click Generate token in the bottom and add a secret to the GitHub actions configuration.
+
+Don't forget to replace `xxx` with your Firebase project name, for example, in the `.firebase.rc` and `firebase.json` files, etc.
 
 ## Google authorization
 Enable Google auth in the Firebase console. Go to the `./src/component/Login.tsx` and replace the code with the commented section.
